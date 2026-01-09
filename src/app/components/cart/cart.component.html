@@ -1,0 +1,64 @@
+<div class="cart-container">
+  <h1>Shopping Cart</h1>
+
+  <div *ngIf="cartItems.length === 0" class="empty-cart">
+    <h2>Your cart is empty</h2>
+    <button (click)="continueShopping()">Continue Shopping</button>
+  </div>
+
+  <div *ngIf="cartItems.length > 0">
+    <div class="cart-items">
+      <div *ngFor="let item of cartItems" class="cart-item">
+        <div class="item-image">
+          <img [src]="item.product.image" [alt]="item.product.name">
+        </div>
+
+        <div class="item-details">
+          <h3>{{ item.product.name }}</h3>
+          <p class="item-description">{{ item.product.description }}</p>
+
+          <div class="item-price">
+            <span *ngIf="item.product.discount" class="original-price">
+              ${{ item.product.price | number:'1.2-2' }}
+            </span>
+            <span class="price">
+              ${{ item.product.price - (item.product.discount ? item.product.price * item.product.discount / 100 : 0) | number:'1.2-2' }}
+            </span>
+          </div>
+        </div>
+
+        <div class="item-quantity">
+          <button (click)="decreaseQuantity(item)" class="qty-btn">-</button>
+          <span class="quantity">{{ item.quantity }}</span>
+          <button (click)="increaseQuantity(item)" class="qty-btn">+</button>
+        </div>
+
+        <div class="item-total">
+          ${{ getItemTotal(item) | number:'1.2-2' }}
+        </div>
+
+        <button class="remove-btn" (click)="removeItem(item)">
+          Remove
+        </button>
+      </div>
+    </div>
+
+    <div class="cart-summary">
+      <div class="summary-row">
+        <span>Total Items:</span>
+        <span>{{ totalItems }}</span>
+      </div>
+
+      <div class="summary-row total">
+        <span>Total Price:</span>
+        <span>${{ totalPrice | number:'1.2-2' }}</span>
+      </div>
+
+      <div class="cart-actions">
+        <button class="clear-btn" (click)="clearCart()">Clear Cart</button>
+        <button class="continue-btn" (click)="continueShopping()">Continue Shopping</button>
+        <button class="checkout-btn" (click)="goToCheckout()">Proceed to Checkout</button>
+      </div>
+    </div>
+  </div>
+</div>

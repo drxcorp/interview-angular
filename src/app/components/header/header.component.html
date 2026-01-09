@@ -1,0 +1,17 @@
+<header class="header">
+  <div class="header-content">
+    <div class="logo">
+      <a routerLink="/products">E-Shop</a>
+    </div>
+
+    <nav class="nav-menu">
+      <a routerLink="/products" routerLinkActive="active">Products</a>
+      <a routerLink="/cart" routerLinkActive="active" class="cart-link">
+        Cart
+        <span class="cart-badge" *ngIf="cartItemCount > 0" [style.display]="cartItemCount > 0 ? 'block' : 'none'">
+          {{ cartItemCount }}
+        </span>
+      </a>
+    </nav>
+  </div>
+</header>
