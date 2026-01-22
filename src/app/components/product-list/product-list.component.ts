@@ -38,28 +38,28 @@ export class ProductListComponent implements OnInit {
     this.filteredProducts = this.products;
 
     // Filter by category
-    if (this.selectedCategory !== 'all') {
-      this.filteredProducts = this.filteredProducts.filter(
-        p => p.category === this.selectedCategory
+    if (this.selectedCategory != 'all') {
+      this.filteredProducts = this.products.filter(
+        p => p.category.toLowerCase() == this.selectedCategory
       );
     }
 
     // Filter by search term
     if (this.searchTerm) {
       this.filteredProducts = this.filteredProducts.filter(p =>
-        p.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        p.description.toLowerCase().includes(this.searchTerm.toLowerCase())
+        p.name.toLowerCase().includes(this.searchTerm) ||
+        p.description.toLowerCase().includes(this.searchTerm)
       );
     }
 
     if (this.sortBy === 'name') {
-      this.filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+      this.products.sort((a, b) => a.name.localeCompare(b.name));
     } else if (this.sortBy === 'price-low') {
-      this.filteredProducts.sort((a, b) => a.price - b.price);
+      this.products.sort((a, b) => a.price - b.price);
     } else if (this.sortBy === 'price-high') {
-      this.filteredProducts.sort((a, b) => b.price - a.price);
+      this.products.sort((a, b) => b.price - a.price);
     } else if (this.sortBy === 'rating') {
-      this.filteredProducts.sort((a, b) => b.rating - a.rating);
+      this.products.sort((a, b) => a.rating - b.rating);
     }
   }
 

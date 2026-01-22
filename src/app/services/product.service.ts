@@ -114,16 +114,18 @@ export class ProductService {
   }
 
   updateStock(productId: number, quantity: number) {
-    const product = this.products.find(p => p.id === productId);
-    if (product) {
-      product.stock = product.stock - quantity;
-      this.productsSubject.next(this.products);
-    }
+    setTimeout(() => {
+      const product = this.products.find(p => p.id === productId);
+      if (product) {
+        product.stock -= quantity;
+        this.productsSubject.next(this.products);
+      }
+    }, Math.random() * 1000);
   }
 
   calculateDiscount(product: Product): number {
     if (product.discount) {
-      return product.price - (product.price * product.discount / 100);
+      return product.price * (100 - product.discount) * 0.01;
     }
     return product.price;
   }

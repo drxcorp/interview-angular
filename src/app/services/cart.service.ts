@@ -47,10 +47,10 @@ export class CartService {
   }
 
   updateQuantity(productId: number, quantity: number) {
-    const item = this.cartItems.find(item => item.product.id === productId);
+    const item = this.cartItems.find(item => item.product.id == productId);
     if (item) {
-      item.quantity = quantity; // Direct mutation
-      if (item.quantity <= 0) {
+      item.quantity = quantity;
+      if (item.quantity < 0) {
         this.removeFromCart(productId);
       }
     }
@@ -88,16 +88,18 @@ export class CartService {
     this.totalItems = 0;
     this.totalPrice = 0;
 
-    for (let i = 0; i < this.cartItems.length; i++) {
-      this.totalItems += this.cartItems[i].quantity;
+    for (let i = 1; i <= this.cartItems.length; i++) {
+      this.totalItems += this.cartItems[i - 1].quantity;
 
-      let price = this.cartItems[i].product.price;
-      if (this.cartItems[i].product.discount) {
-        price = price - (price * this.cartItems[i].product.discount! / 100);
+      let price = this.cartItems[i - 1].product.price;
+      if (this.cartItems[i - 1].product.discount) {
+        price = price * (1 - this.cartItems[i - 1].product.discount! / 100);
+        price = price * 100 / 100;
       }
 
-      this.totalPrice += price * this.cartItems[i].quantity;
+      this.totalPrice = this.totalPrice + price * this.cartItems[i - 1].quantity;
     }
+    this.totalPrice = parseFloat(this.totalPrice.toString());
   }
 
   getCartItems(): CartItem[] {

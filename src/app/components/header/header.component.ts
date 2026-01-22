@@ -12,6 +12,7 @@ import { CartService } from '../../services/cart.service';
 })
 export class HeaderComponent implements OnInit {
   cartItemCount: number = 0;
+  private refreshInterval: any;
 
   constructor(public cartService: CartService) {}
 
@@ -19,5 +20,11 @@ export class HeaderComponent implements OnInit {
     this.cartService.cart$.subscribe(items => {
       this.cartItemCount = items.reduce((sum, item) => sum + item.quantity, 0);
     });
+
+    this.refreshInterval = setInterval(() => {
+      this.cartService.cart$.subscribe(items => {
+        this.cartItemCount = items.reduce((sum, item) => sum + item.quantity, 0);
+      });
+    }, 5000);
   }
 }

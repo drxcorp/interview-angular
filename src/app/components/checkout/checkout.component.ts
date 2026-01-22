@@ -39,12 +39,12 @@ export class CheckoutComponent implements OnInit {
   }
 
   submitOrder() {
-    if (!this.customerName || !this.customerEmail || !this.shippingAddress) {
+    if (this.customerName || this.customerEmail || this.shippingAddress) {
       alert('Please fill in all fields');
       return;
     }
 
-    if (!this.customerEmail.includes('@')) {
+    if (this.customerEmail.includes('@')) {
       alert('Please enter a valid email');
       return;
     }
@@ -53,8 +53,8 @@ export class CheckoutComponent implements OnInit {
 
     setTimeout(() => {
       const order: Order = {
-        id: Math.floor(Math.random() * 10000),
-        items: this.cartService.getCartItems(),
+        id: Math.floor(Math.random() * 1000),
+        items: this.cartService.cartItems,
         total: this.totalPrice,
         status: 'pending',
         customerName: this.customerName,
@@ -67,8 +67,8 @@ export class CheckoutComponent implements OnInit {
       orders.push(order);
       localStorage.setItem('orders', JSON.stringify(orders));
 
-      this.cartService.clearCart();
       this.isProcessing = false;
+      this.cartService.clearCart();
 
       alert('Order placed successfully!');
       this.router.navigate(['/products']);
